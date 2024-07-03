@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:renttas/infrastructure/repository/fetchBill/repo.dart';
-import 'package:renttas/infrastructure/repository/getTenant/repo.dart';
-import 'package:renttas/presentation/screens/landlord/home/tabs/add_bill/add_bill.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:renttas/domain/models/user_model/model.dart';
+import 'package:renttas/main.dart';
 import 'package:renttas/presentation/screens/landlord/home/tabs/add_bill/widgets/bill_viewer.dart';
-import 'package:renttas/presentation/screens/landlord/home/tabs/widgets/floating_button.dart';
-import 'package:renttas/presentation/widgets/navigators/navs.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../../infrastructure/repository/fetchBill/repo.dart';
+import '../../../../widgets/navigators/navs.dart';
 
 class HomeBillTab extends StatefulWidget {
   const HomeBillTab({super.key});
@@ -16,119 +19,256 @@ class HomeBillTab extends StatefulWidget {
 }
 
 class _HomeBillTabState extends State<HomeBillTab> {
-  late FetchBillRepo billManagementController;
-  late GetTenantRepo tenant;
+  // String _getInitials(String name) {
+  //   List<String> parts = name.split(' ');
+  //   if (parts.length >= 2) {
+  //     String firstName = parts[0];
+  //     String lastName = parts[parts.length - 1];
+  //     return '${firstName[0]}${lastName[0]}'.toUpperCase();
+  //   } else if (parts.length == 1) {
+  //     return '${parts[0][0]}'.toUpperCase();
+  //   } else {
+  //     return '';
+  //   }
+  // }
+
+  final getbill = Get.put(FetchBillRepo());
 
   @override
   void initState() {
     super.initState();
-    billManagementController = Get.put(FetchBillRepo());
-    tenant = Get.put(GetTenantRepo());
+    getbill.billFetchByMobile();
+     //getbill.getPaymentRecieved(bill.billId);
   }
 
   @override
   Widget build(BuildContext context) {
+    // String initials = userModel != null ? _getInitials(userModel!.name) : '';
     return Scaffold(
-      floatingActionButton: CustomTabsFloatingButton(
-          text: 'Rent Bill',
-          onTap: () {
-            if (tenant.tenantList.isEmpty) {
-              Get.snackbar('Error', 'Add Tenant First');
-            } else {
-              customNavPush(context, TenantAddBillScreen());
-            }
-          }),
       body: Obx(() {
-        if (billManagementController.isLoading.value) {
+        if (getbill.isLoading.value) {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (billManagementController.billList.isEmpty) {
+        } else if (getbill.billList.isEmpty) {
           return Center(
             child: Text('Bill Not found!'),
           );
         } else {
           return ListView.builder(
-            itemCount: billManagementController.billList.length,
-            itemBuilder: (context, index) {
-              final bill = billManagementController.billList[index];
-              //final tenant1 = tenant.tenantList[index];
-              return GestureDetector(
-                onTap: () {
-                  customNavPush(
-                    context,
-                    BillPaymentDetails(
-                      bill: bill,
-                     
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black38)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                bill.createdAt,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    bill.rentAmount.toString(),
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  Text(
-                                    'Amount',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  billManagementController
-                                      .deleteBill(bill.billId);
-                                },
-                                child: Row(
+              itemCount: getbill.billList.length,
+              itemBuilder: (context, index) {
+                final bill = getbill.billList[index];
+                //getbill.getPaymentRecieved(bill.billId);
+                //final tenant1 = tenant.tenantList[index];
+                return GestureDetector(
+                  onTap: () {
+                    customNavPush(
+                      context,
+                      BillPaymentDetails(
+                        bill: bill,
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(11.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.black87)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Icon(
-                                      CupertinoIcons.delete,
-                                      color: Colors.red,
-                                      size: 18,
+                                    const SizedBox(
+                                      width: 10,
+                                      height: 80,
                                     ),
-                                    Text(
-                                      'Remove',
-                                      style: TextStyle(color: Colors.red),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        child: Text(
+                                          bill.createdAt,
+                                          style: GoogleFonts.inter(
+                                              color: Colors.black54,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   width: 120,
+                                    //   child: Text(
+                                    //       userModel?.name ?? 'USER NAME',
+                                    //       style: GoogleFonts.inter(
+                                    //           color: Colors.black87,
+                                    //           fontSize: 18,
+                                    //           fontWeight: FontWeight.w800)),
+                                    // ),
+                                    const SizedBox(
+                                      width: 11,
+                                    ),
+                                    Container(
+                                      decoration:
+                                          BoxDecoration(color: Colors.red[100]),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            '₹ ${bill.rentAmount.toString()}',
+                                            style: GoogleFonts.urbanist(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700)),
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.green[50]),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('₹ 0.0',
+                                            style: GoogleFonts.urbanist(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700)),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 30,
                                     )
                                   ],
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
+                                            ),
+                                            border: Border.all(
+                                                color: Colors.black45)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add_box_outlined,
+                                              size: 30,
+                                              color: contsGreen,
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                getbill.addPaymentRecieved(
+                                                    bill.billId,
+                                                    bill.rentAmount.toString());
+                                                print('object');
+                                              },
+                                              child: Text('Payment Recieved',
+                                                  style: GoogleFonts.urbanist(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    // InkWell(
+                                    //   onTap: () => openWhatsAppChat('+918943514279'),
+                                    //   child: Expanded(
+                                    //     child: Container(
+                                    //       height: 50,
+                                    //       decoration: BoxDecoration(
+                                    //           border: Border.all(color: Colors.black45)),
+                                    //       child: Row(
+                                    //         mainAxisAlignment: MainAxisAlignment.center,
+                                    //         children: [
+                                    //           // Icon(
+                                    //           //   Icons.wh,
+                                    //           //   size: 30,
+                                    //           //   color: contsGreen,
+                                    //           // ),
+                                    //           Container(
+                                    //             width: 40,
+                                    //             child: Image.asset(
+                                    //               'assets/images/whatsapp icon.png',
+                                    //               fit: BoxFit.fill,
+                                    //             ),
+                                    //           ),
+
+                                    //           Text('WhatsApp',
+                                    //               style: GoogleFonts.urbanist(
+                                    //                   fontSize: 15,
+                                    //                   fontWeight: FontWeight.w700))
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomRight: Radius.circular(10),
+                                            ),
+                                            border: Border.all(
+                                                color: Colors.black45)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.delete_outline_rounded,
+                                              size: 30,
+                                              color: contsGreen,
+                                            ),
+                                            const SizedBox(
+                                              width: 6,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                getbill.deleteBill(bill.billId);
+                                              },
+                                              child: Text('Delete',
+                                                  style: GoogleFonts.urbanist(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-              );
-            },
-          );
+                );
+              });
         }
       }),
     );
   }
 }
+ // const SizedBox(
+                              //   width: 8,
+                              // ),

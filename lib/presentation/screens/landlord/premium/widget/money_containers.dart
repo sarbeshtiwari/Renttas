@@ -1,21 +1,21 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:renttas/presentation/screens/landlord/premium/widget/money.dart';
 
 class MoneyCustomContainers extends StatefulWidget {
-  const MoneyCustomContainers({super.key});
+  final void Function(String) onDurationSelected;
+  final void Function(String) onPriceSelect;
+
+  const MoneyCustomContainers(
+      {Key? key, required this.onDurationSelected, required this.onPriceSelect})
+      : super(key: key);
 
   @override
   State<MoneyCustomContainers> createState() => _MoneyCustomContainersState();
 }
 
 class _MoneyCustomContainersState extends State<MoneyCustomContainers> {
-  bool threeMonths = false;
-  bool sixMonths = false;
-  bool oneYear = false;
-  bool twoYear = false;
+  String selectedDuration = ''; // Track the selected duration
+  String selectedPrice = '';
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,13 @@ class _MoneyCustomContainersState extends State<MoneyCustomContainers> {
             children: [
               Expanded(
                 child: PremiumMoneyContainer(
-                  selected: threeMonths,
+                  selected: selectedDuration == '3 Months',
                   onTap: () {
                     setState(() {
-                      threeMonths = true;
-                      sixMonths = false;
-                      oneYear = false;
-                      twoYear = false;
+                      selectedDuration = '3 Months';
                     });
+                    widget.onDurationSelected('3 Months');
+                    widget.onPriceSelect('1199');
                   },
                   currentPrize: '1199',
                   oldPrize: '1499',
@@ -48,16 +47,15 @@ class _MoneyCustomContainersState extends State<MoneyCustomContainers> {
                 child: PremiumMoneyContainer(
                   onTap: () {
                     setState(() {
-                      threeMonths = false;
-                      sixMonths = true;
-                      oneYear = false;
-                      twoYear = false;
+                      selectedDuration = '6 Months';
                     });
+                    widget.onDurationSelected('6 Months');
+                    widget.onPriceSelect('1999');
                   },
                   currentPrize: '1999',
                   oldPrize: '2499',
                   validFor: '6 Months',
-                  selected: sixMonths,
+                  selected: selectedDuration == '6 Months',
                 ),
               ),
             ],
@@ -71,15 +69,14 @@ class _MoneyCustomContainersState extends State<MoneyCustomContainers> {
                 child: PremiumMoneyContainer(
                   onTap: () {
                     setState(() {
-                      threeMonths = false;
-                      sixMonths = false;
-                      oneYear = true;
-                      twoYear = false;
+                      selectedDuration = '1 Year';
                     });
+                    widget.onDurationSelected('1 Year');
+                    widget.onPriceSelect('3599');
                   },
                   currentPrize: '3599',
                   oldPrize: '4999',
-                  selected: oneYear,
+                  selected: selectedDuration == '1 Year',
                   validFor: '1 Year',
                 ),
               ),
@@ -90,13 +87,12 @@ class _MoneyCustomContainersState extends State<MoneyCustomContainers> {
                 child: PremiumMoneyContainer(
                   onTap: () {
                     setState(() {
-                      threeMonths = false;
-                      sixMonths = false;
-                      oneYear = false;
-                      twoYear = true;
+                      selectedDuration = '2 Year';
                     });
+                    widget.onDurationSelected('2 Year');
+                    widget.onPriceSelect('5999');
                   },
-                  selected: twoYear,
+                  selected: selectedDuration == '2 Year',
                   currentPrize: '5999',
                   oldPrize: '7999',
                   validFor: '2 Year',

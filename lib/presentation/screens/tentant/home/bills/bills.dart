@@ -116,7 +116,8 @@ class _LatestBillTenantState extends State<LatestBillTenant> {
                                           BoxDecoration(color: Colors.red[100]),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text('₹ 20000',
+                                        child: Text(
+                                            '₹ ${bill.rentAmount.toString()}',
                                             style: GoogleFonts.urbanist(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700)),

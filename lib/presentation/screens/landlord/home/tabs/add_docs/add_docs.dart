@@ -64,35 +64,47 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                     _pickFile;
                   },
                   child: Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black)),
-                    child: _selectedFile != null
-                        ? Column(
-                            children: [
-                              Container(
+                      width: double.infinity,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black)),
+                      child: _selectedFile == null
+                          ? GestureDetector(
+                              onTap: _pickFile,
+                              child: Container(
                                 width: double.infinity,
                                 height: 250,
-                                decoration: BoxDecoration(
-                                  border: Border.all(),
-                                ),
-                                child: Image.file(
-                                  _selectedFile!,
-                                  fit: BoxFit.cover,
+                                decoration: BoxDecoration(border: Border.all()),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 200,
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                  'File: ${path.basename(_selectedFile!.path)}'),
-                            ],
-                          )
-                        : const Icon(
-                            Icons.add,
-                            size: 120,
-                          ),
-                  ),
+                            )
+                          : Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 250,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                  ),
+                                  child: Image.file(
+                                    _selectedFile!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                    'File: ${path.basename(_selectedFile!.path)}'),
+                              ],
+                            )
+                      // : const Icon(
+                      //     Icons.add,
+                      //     size: 120,
+                      //   ),
+                      ),
                 ),
               ),
               AddDocumentCustomFields(

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:renttas/presentation/screens/landlord/home/profile/manage_property/manage.dart';
 
 class ManageDropDownFields extends StatefulWidget {
   const ManageDropDownFields({
@@ -10,21 +9,19 @@ class ManageDropDownFields extends StatefulWidget {
     required this.name,
     required this.hintText,
     required this.icon,
-    this.onTap,
-    // required this.keyboardType,
     required this.items,
     required this.period,
+    this.onTap,
   });
+
   final bool period;
   final String hintText;
   final String name;
-  final Function()? onTap;
-  // final TextInputType keyboardType;
   final Icon icon;
   final List<String> items;
+  final Function(String)? onTap;
 
   @override
-  // ignore: library_private_types_in_public_api
   _ManageDropDownFieldsState createState() => _ManageDropDownFieldsState();
 }
 
@@ -58,13 +55,12 @@ class _ManageDropDownFieldsState extends State<ManageDropDownFields> {
             child: DropdownButtonFormField<String>(
               value: selectedValue,
               onChanged: (String? newValue) {
-                widget.period
-                    ? setState(() {
-                        // selectedPeriodProfileManage = newValue;
-                      })
-                    : setState(() {
-                        // allPropertisProfileManage = newValue;
-                      });
+                setState(() {
+                  selectedValue = newValue;
+                });
+                if (widget.onTap != null && newValue != null) {
+                  widget.onTap!(newValue);
+                }
               },
               items: widget.items.map((String item) {
                 return DropdownMenuItem<String>(

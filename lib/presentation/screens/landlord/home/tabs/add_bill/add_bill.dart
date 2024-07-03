@@ -79,8 +79,7 @@ class _TenantAddBillScreenState extends State<TenantAddBillScreen> {
           billManagementController = Get.put(FetchBillRepo());
           billManagementController.billFetch(
               //(
-              currentPropertyId,
-              currentSubpropertyId);
+              );
 
           // Only pop once after everything is done
           Navigator.pop(context);

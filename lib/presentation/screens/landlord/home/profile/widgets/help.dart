@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:renttas/presentation/screens/chat/chatScreen.dart';
 import 'package:renttas/presentation/screens/landlord/home/profile/language/language.dart';
 import 'package:renttas/presentation/screens/landlord/home/profile/manage_property/manage.dart';
 import 'package:renttas/presentation/widgets/navigators/navs.dart';
@@ -46,6 +47,7 @@ class TenantProfileHelpAndSupport extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  onTap: () => customNavPush(context, const ChatScreen()),
                   leading: const Icon(Icons.message),
                   title: Text(
                     'Live Chat',

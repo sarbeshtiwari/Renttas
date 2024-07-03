@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:renttas/domain/models/getReport/get_report.dart';
 import 'package:renttas/main.dart';
 import 'package:renttas/presentation/screens/landlord/home/profile/manage_property/widget/dropdown_fields.dart';
 
 String? allPropertisProfileManage;
 String? selectedPeriodProfileManage;
 
-class ProfileManageProperty extends StatelessWidget {
+class ProfileManageProperty extends StatefulWidget {
   const ProfileManageProperty({super.key});
+
+  @override
+  State<ProfileManageProperty> createState() => _ProfileManagePropertyState();
+}
+
+class _ProfileManagePropertyState extends State<ProfileManageProperty> {
+  late GetReport model;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class ProfileManageProperty extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            const CustomDropDownFields(),
+            CustomDropDownFields(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

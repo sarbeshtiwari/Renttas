@@ -42,8 +42,7 @@ class _TenantHomeScreenCustomAppBarState
     billManagementController = Get.put(FetchBillRepo());
     billManagementController.billFetch(
         //(
-        currentPropertyId,
-        currentSubpropertyId); //));
+        ); //));
   }
 
   String _getInitials(String name) {
@@ -103,12 +102,10 @@ class _TenantHomeScreenCustomAppBarState
                               //     Get.put(FetchBillRepo());
                               billManagementController.billFetch(
                                   //(
-                                  currentPropertyId,
-                                  currentSubpropertyId); //));
+                                  ); //));
                               // late GetTenantRepo tenantManagementController;
                               // tenantManagementController = Get.put(GetTenantRepo());
-                              tenantManagementController.getTenantReq(
-                                 );
+                              tenantManagementController.getTenantReq();
                               selectedPropertyId = state.id;
                               selectpropertyName = state.selectedProperty;
                               selectedSubPropertyName = state.subPropertyName;

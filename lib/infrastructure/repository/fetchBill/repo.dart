@@ -36,20 +36,23 @@
 
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:renttas/application/property_select/propertyselecter_bloc.dart';
 import 'package:renttas/core/api/apis.dart';
 import 'package:renttas/domain/models/bill_fetch/model.dart';
 import 'package:http/http.dart' as http;
 import 'package:renttas/domain/models/user_model/model.dart';
+import 'package:renttas/infrastructure/repository/fetchBill/payment_model.dart';
 
 class FetchBillRepo extends GetxController {
   var isLoading = false.obs;
   var billList = <PropertyBillFetchModel>[].obs;
+  var receivedPayemnt = <Datum>[].obs;
 
-  Future<void> billFetch(String propertyId, String subPropertyId) async {
+  Future<void> billFetch() async {
     var isLoading = false.obs;
     Map<String, dynamic> request = {
-      "propertyId": propertyId,
-      "subPropertyId": subPropertyId
+      "propertyId": currentPropertyId,
+      "subPropertyId": currentSubpropertyId
     };
 
     try {
@@ -70,6 +73,7 @@ class FetchBillRepo extends GetxController {
           billList.value = (responseBody['data'] as List).map((item) {
             return PropertyBillFetchModel.fromMap(item as Map<String, dynamic>);
           }).toList();
+          
         } else {
           billList.clear();
         }
@@ -132,12 +136,77 @@ class FetchBillRepo extends GetxController {
       if (response.statusCode == 200) {
         billList.removeWhere((billList) => billList.billId == id);
       } else {
-        print('Failed to delete document: Status code ${response.statusCode}');
-        throw Exception('Failed to delete document');
+        print('Failed to delete bill: Status code ${response.statusCode}');
+        throw Exception('Failed to delete bill');
       }
     } catch (e) {
       print('Exception caught: $e');
-      throw Exception('Failed to delete document');
+      throw Exception('Failed to delete bill');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> addPaymentRecieved(String id, String amount) async {
+    isLoading.value = true;
+    Map<String, dynamic> req1 = {
+      "billid": id,
+      "transferthrough": "RTGS",
+      "date": DateTime.now().toString(),
+      "receivedamount": amount
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(Api.addReceivedPayment),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(req1),
+      );
+      if (response.statusCode == 200) {
+        print('recieved');
+      } else {
+        print('Failed to add Payment: Status code ${response.statusCode}');
+        throw Exception('Failed to add Payment');
+      }
+    } catch (e) {
+      print('Exception caught: $e');
+      throw Exception('Failed to add Payment');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> getPaymentRecieved(String id) async {
+    isLoading.value = true;
+    Map<String, dynamic> req1 = {"billid": id};
+
+    try {
+      final response = await http.post(
+        Uri.parse(Api.getReceivedPayment),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(req1),
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = json.decode(response.body);
+        print(responseBody);
+
+        if (responseBody['statuscode'] == 200 && responseBody["data"] is List) {
+          final paymentRecieve = PaymentRecieve.fromJson(responseBody);
+          receivedPayemnt.value = paymentRecieve.data;
+        } else {
+          receivedPayemnt.clear();
+        }
+      } else {
+        receivedPayemnt.clear();
+      }
+    } catch (e) {
+      print('Error fetching payment received: $e');
+      receivedPayemnt.clear();
     } finally {
       isLoading.value = false;
     }
