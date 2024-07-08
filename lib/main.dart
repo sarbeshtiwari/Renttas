@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -9,11 +10,16 @@ import 'package:renttas/application/forgetpassword/forgetpassword_bloc.dart';
 import 'package:renttas/application/login_bloc/login_bloc.dart';
 import 'package:renttas/application/property_select/propertyselecter_bloc.dart';
 import 'package:renttas/application/signup_bloc/auth_bloc.dart';
+import 'package:renttas/firebase_options.dart';
 import 'package:renttas/presentation/screens/splash/splash.dart';
 
 const loginTocken = '';
-void main() {
-  runApp(const MyApp());
+void main()async {
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
 Color contsGreen = const Color.fromARGB(255, 82, 144, 83);
