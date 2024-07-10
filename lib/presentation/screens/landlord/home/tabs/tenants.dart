@@ -66,7 +66,7 @@ class _HomeTenantsTabState extends State<HomeTenantsTab> {
                           children: [
                             Text(
                               tenant.tenantName,
-                              style: TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: 24),  //
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,

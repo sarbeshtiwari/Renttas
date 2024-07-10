@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCRmx9iWYGK045mDD47QHaKxHhirjEiKuo',
-    appId: '1:840591907848:android:8ce23aefe622d4543705bd',
+    appId: '1:840591907848:android:c5ccb50ec549547d3705bd',
     messagingSenderId: '840591907848',
     projectId: 'renttas-c9b91',
     storageBucket: 'renttas-c9b91.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA_ZJbVXvNQrhJG_Oc6UkKhy45DwJwdvzY',
-    appId: '1:840591907848:ios:7d39c24782c5b5cc3705bd',
+    appId: '1:840591907848:ios:9186ecede053b2d13705bd',
     messagingSenderId: '840591907848',
     projectId: 'renttas-c9b91',
     storageBucket: 'renttas-c9b91.appspot.com',
-    iosBundleId: 'com.example.renttas',
+    iosBundleId: 'com.application.renttas',
   );
 
 }

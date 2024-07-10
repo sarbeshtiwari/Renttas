@@ -63,7 +63,7 @@ class FetchBillRepo extends GetxController {
         },
         body: json.encode(request),
       );
-      print(response.statusCode);
+      // print(response.statusCode);
 
       if (response.statusCode == 200) {
         final responseBody = json.decode(response.body);

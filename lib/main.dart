@@ -1,3 +1,4 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,14 +11,16 @@ import 'package:renttas/application/forgetpassword/forgetpassword_bloc.dart';
 import 'package:renttas/application/login_bloc/login_bloc.dart';
 import 'package:renttas/application/property_select/propertyselecter_bloc.dart';
 import 'package:renttas/application/signup_bloc/auth_bloc.dart';
-import 'package:renttas/firebase_options.dart';
+// import 'package:renttas/firebase_options.dart';
 import 'package:renttas/presentation/screens/splash/splash.dart';
+
+import 'firebase_options.dart';
 
 const loginTocken = '';
 void main()async {
  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    // options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
 }

@@ -1,19 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:renttas/domain/models/user_model/model.dart';
 import 'package:renttas/presentation/screens/chat/chat_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../main.dart';
 
 class ChatService extends ChangeNotifier {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  Future<String?> getSavedInfo() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? savedValue = preferences.getString(loginTocken); // Replace with your actual key
+
+    return savedValue;
+  }
+
 
   //send Message
   Future<void> sendMessage(String senderId, String receiverId, String message) async {
 //get user info
+    String? savedValue = await getSavedInfo();
+    print(senderId);
+  print(receiverId);
+  print(message);
     final Timestamp timestamp = Timestamp.now();
-
     //create a msg
     Message newMessage = Message(
         senderId: senderId,
         receiverId: receiverId,
+        senderType: savedValue!,
         message: message,
         timestamp: timestamp);
 //construct chat room

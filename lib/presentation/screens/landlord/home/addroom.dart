@@ -70,7 +70,7 @@ class TenantAddRoomScreen extends StatelessWidget {
                 fontweight: FontWeight.w500,
                 height: 50,
                 name: 'Submit',
-                onTap: () => customNavPush(context, ()),
+                onTap: () {},//=> customNavPush(context, ()),
                 radius: 10,
                 textclr: Colors.black,
                 textsize: 20,
