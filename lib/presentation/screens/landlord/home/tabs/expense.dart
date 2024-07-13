@@ -42,7 +42,7 @@ class _HomeExpenseTabState extends State<HomeExpenseTab> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black38)),
+                      BoxDecoration(border: Border.all(color: Colors.black38), borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -81,7 +81,7 @@ class _HomeExpenseTabState extends State<HomeExpenseTab> {
                               child: Row(
                                 children: [
                                   Icon(
-                                    Icons.delete,
+                                    Icons.update,
                                     color: Colors.blue,
                                   ),
                                   SizedBox(width: 4),

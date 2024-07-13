@@ -16,15 +16,13 @@ class HomeTenantsTab extends StatefulWidget {
 }
 
 class _HomeTenantsTabState extends State<HomeTenantsTab> {
-  late GetTenantRepo tenantManagementController;
+  final GetTenantRepo tenantManagementController  = Get.put(GetTenantRepo());
 
   @override
   void initState() {
     super.initState();
-    tenantManagementController = Get.put(GetTenantRepo());
-    // tenantManagementController.getTenantReq(
-    //     "b4ae96c6-962b-450b-9c7d-26fb534fedcd",
-    //     "5c5cd7f6-efcb-4c33-9015-4c2d05743571");
+
+    tenantManagementController.getTenantReq();
   }
 
   @override
@@ -56,7 +54,7 @@ class _HomeTenantsTabState extends State<HomeTenantsTab> {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black38)),
+                      BoxDecoration(border: Border.all(color: Colors.black38),borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -165,7 +163,9 @@ class _HomeTenantsTabState extends State<HomeTenantsTab> {
                             ),
                           ],
                         )
+
                       ],
+
                     ),
                   ),
                 ),
@@ -176,10 +176,13 @@ class _HomeTenantsTabState extends State<HomeTenantsTab> {
               //   subtitle:
               //       Text(tenant.phone), // Adjust this according to your model
               // );
+
             },
           );
+
         }
       }),
     );
   }
+
 }

@@ -18,7 +18,7 @@ class AddPropertyDetails extends GetxController {
       "subPropertyid": currentSubpropertyId,
       "propertyownername": propOwner,
       "docName": docName,
-      "file": '',
+      "file": file,
     };
 
     try {

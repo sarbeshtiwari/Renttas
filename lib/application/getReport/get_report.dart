@@ -1,18 +1,21 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:renttas/application/property_select/propertyselecter_bloc.dart';
-import 'package:renttas/core/api/apis.dart';
 import 'package:http/http.dart' as http;
+import 'package:renttas/core/api/apis.dart';
 import 'package:renttas/domain/models/getReport/get_report.dart';
+import 'package:renttas/domain/models/user_model/model.dart';
+
+import '../property_select/propertyselecter_bloc.dart';
 
 class GetReportController extends GetxController {
   var isLoading = false.obs;
   var reportList = <GetReport>[].obs;
 
-  Future<void> getReportYear(duration) async {
+  Future<void> getReportYear(String duration) async {
     isLoading.value = true;
+
     Map<String, dynamic> req = {
-      "userid": '1',
+      "userid": userModel!.uid,
       "propertyid": currentPropertyId,
       "duration": duration,
     };
@@ -30,8 +33,13 @@ class GetReportController extends GetxController {
         final responseBody = jsonDecode(response.body);
 
         if (responseBody['statuscode'] == 200) {
-          final data = GetReport.fromJson(responseBody);
-          reportList.value = [data];
+          final List<dynamic> reportData = responseBody['data'];
+
+          List<GetReport> parsedReports = reportData.map((item) {
+            return GetReport.fromJson(item);
+          }).toList();
+
+          reportList.assignAll(parsedReports);
         } else {
           reportList.clear();
         }
@@ -50,14 +58,14 @@ class GetReportController extends GetxController {
   Future<void> getReportMonth(int duration) async {
     isLoading.value = true;
     Map<String, dynamic> req = {
-      "userid": 'userid',
+      "userid": userModel!.uid,
       "propertyid": currentPropertyId,
       "duration": duration,
     };
 
     try {
       final response = await http.post(
-        Uri.parse(Api.getAccountReportBasedonYear),
+        Uri.parse(Api.getAccountReportBasedonMonth),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -68,8 +76,13 @@ class GetReportController extends GetxController {
         final responseBody = jsonDecode(response.body);
 
         if (responseBody['statuscode'] == 200) {
-          final data = GetReport.fromJson(responseBody);
-          reportList.value = [data];
+          final List<dynamic> reportData = responseBody['data'];
+
+          List<GetReport> parsedReports = reportData.map((item) {
+            return GetReport.fromJson(item);
+          }).toList();
+
+          reportList.assignAll(parsedReports);
         } else {
           reportList.clear();
         }

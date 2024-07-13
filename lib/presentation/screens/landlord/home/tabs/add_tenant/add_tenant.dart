@@ -14,6 +14,7 @@ import 'package:renttas/presentation/screens/landlord/home/tabs/add_tenant/widge
 import 'package:renttas/presentation/widgets/buttons/custom_button.dart';
 
 import '../../../../../../infrastructure/repository/getTenant/repo.dart';
+import '../../home.dart';
 
 final addtenantphonenumberController = TextEditingController();
 final addTenantstartDate = TextEditingController();
@@ -146,8 +147,13 @@ class AddTenantScreen extends StatelessWidget {
     //   ),
     // );
 
+    tenantManagementController.getTenantReq();
+
     // Only pop once after everything is done
+
     Navigator.pop(context);
+    // tenantManagementController.getTenantReq();
+
   }
 
   void updateTenant(context) {

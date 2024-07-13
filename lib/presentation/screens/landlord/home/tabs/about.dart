@@ -35,8 +35,73 @@ class _HomeAboutTabState extends State<HomeAboutTab> {
             } else if (geta.aboutOwner.isEmpty) {
               return Center(
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 100, right: 100, bottom: 30),
+                  child: CustomButton(
+                    isNetwork: false,
+                    isRow: false,
+                    onTap: () {},
+                    borderclr: Colors.green,
+                    color: const Color.fromARGB(255, 82, 144, 83),
+                    fontweight: FontWeight.w500,
+                    radius: 10,
+                    textclr: Colors.white,
+                    name: 'Property Details',
+                    height: 45,
+                    textsize: 16,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 7, bottom: 7),
+                  child: Text(
+                    'Details :',
+                    style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w700, fontSize: 17),
+                  ),
+                ),
+                Divider(color: Colors.black),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('No data available'),
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Owner name :-',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Divider(color: Colors.black),
+                    Text(
+                      'Address :-',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),]
+                  ), Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'N/A',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          Divider(color: Colors.black),
+                          Text(
+                            'N/A',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),])
+                  ]),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -92,7 +157,8 @@ class _HomeAboutTabState extends State<HomeAboutTab> {
                                   ])),
                         ),
                       ],
-                    )
+                    ),
+
                   ],
                 ),
               );
@@ -109,7 +175,7 @@ class _HomeAboutTabState extends State<HomeAboutTab> {
                         const SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 100, right: 100, top: 30, bottom: 30),
+                              left: 100, right: 100, bottom: 30),
                           child: CustomButton(
                             isNetwork: false,
                             isRow: false,
@@ -141,7 +207,7 @@ class _HomeAboutTabState extends State<HomeAboutTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Property name :-',
+                                  'Owner name :-',
                                   style: TextStyle(
                                     fontSize: 15,
                                   ),
